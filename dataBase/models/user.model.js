@@ -104,6 +104,10 @@ const UserSchema = new Schema({
     enum: ["Agent", "Coordinator", "Team Lead", "Supervisor", "Manager"],
     default: "Agent",
   },
+  avatar: {
+    type: String,
+    default: "user-default-avatar.png",
+  },
 });
 
 UserSchema.pre("save", async function (next) {
