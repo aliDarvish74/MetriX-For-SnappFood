@@ -27,7 +27,6 @@ const loginValidator = async (req, res, next) => {
     }
 
     let targetUser = await findUserByUsername(loginInfo.credentials);
-    console.log(targetUser);
     if (!targetUser) {
       targetUser = await findUserByEmail(loginInfo.credentials);
     }

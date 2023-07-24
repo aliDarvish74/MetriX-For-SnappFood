@@ -96,7 +96,7 @@ const UserSchema = new Schema({
   },
   restTime: {
     type: String,
-    required: [true, "DB: Rest time is required"],
+    default: "not-set",
   },
   role: {
     type: String,
@@ -110,10 +110,13 @@ const UserSchema = new Schema({
 });
 
 UserSchema.pre("save", async function (next) {
-  if (!this.isNew && !this.isModified("password")) return next();
   try {
+    if (!this.isNew && !this.isModified("password")) return next();
     const salt = await genSalt(10);
     this.password = await hash(this.password, salt);
+    this.phoneNumber = this.phoneNumber.startsWith("0")
+      ? "+98" + this.phoneNumber.slice(1)
+      : this.phoneNumber;
     return next();
   } catch (error) {
     next(new createError(500, `user pre save >` + error?.message));

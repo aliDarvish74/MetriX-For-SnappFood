@@ -1,7 +1,7 @@
 const createError = require("http-errors");
 
-const notSignedIn = async (req, res, next) => {
-  if (!!req.session.userId) {
+const notLoggedIn = async (req, res, next) => {
+  if (!!req.session.user) {
     return next(
       createError(409, "You Signed In before! Please sign out first.")
     );
@@ -9,6 +9,14 @@ const notSignedIn = async (req, res, next) => {
   next();
 };
 
+const isLoggedIn = async (req, res, next) => {
+  if (!req.session.user) {
+    return next(createError(401, "Unathorized! Please sign in first."));
+  }
+  next();
+};
+
 module.exports = {
-  notSignedIn,
+  notLoggedIn,
+  isLoggedIn,
 };
