@@ -1,12 +1,14 @@
+require("dotenv").config();
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const session = require("express-session");
 
+const dataBaseConnection = require("./dataBase/dataBase.connection");
 const apiRouter = require("./routes/api.route");
 const viewRouter = require("./routes/view.route");
-const dataBaseConnection = require("./dataBase/dataBase.connection");
 
 const app = express();
 dataBaseConnection();
@@ -20,6 +22,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+// Set Session
+const oneDay = 1000 * 60 * 60 * 24;
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: true,
+    cookie: { maxAge: oneDay },
+    resave: false,
+  })
+);
 
 app.use("/api", apiRouter);
 app.use("/", viewRouter);

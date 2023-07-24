@@ -49,7 +49,7 @@ const UserSchema = new Schema({
     type: Date,
     required: [true, "DB: Hire date is required"],
   },
-  viop: {
+  voip: {
     type: Number,
     unique: [true, "DB: Voip number must be unique"],
     required: [true, "DB: Voip number is required"],
@@ -80,7 +80,6 @@ const UserSchema = new Schema({
   },
   directManager: {
     type: Schema.Types.ObjectId,
-    required: [true, "DB: Direct Manager is required"],
     ref: "User",
   },
   nationalCode: {
