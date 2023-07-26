@@ -187,6 +187,10 @@ const renderPersonalInfo = async (userId) => {
     );
     const { data } = await axios.get(`/api/user/${userId}`);
     const user = data.data;
+    console.log(user);
+    const allPages = $(".all-selector");
+    allPages.hide();
+    $("#dashboard-content").fadeIn();
     personalInfoContainer.innerHTML = `
           <div class="col-4 p-3 text-light">
             <span class="text-warning">Full Name:<span class="text-light"> ${
@@ -250,10 +254,13 @@ const renderPersonalInfo = async (userId) => {
             </div>
             <div class="col-4 p-3 text-light">
             <span class="text-warning">Direct Manager:  <span class="text-light">${
-              user.directManager.fullname ?? "مشخص نشده"
+              user?.directManager?.fullname ?? "مشخص نشده"
             }</span></span>
             </div>
             `;
+    setTimeout(() => {
+      test();
+    }, 250);
   } catch (error) {
     console.log(error);
     renderResponseError(
@@ -263,7 +270,12 @@ const renderPersonalInfo = async (userId) => {
   }
 };
 const renderMyPerformance = (userId) => {
-  console.log(userId, "my performance");
+  const allPages = $(".all-selector");
+  allPages.hide();
+  $("#my-performance-content").fadeIn();
+  setTimeout(() => {
+    test();
+  }, 250);
 };
 const renderAgentsPerformance = (userId) => {
   console.log(userId, "my agents performance");
