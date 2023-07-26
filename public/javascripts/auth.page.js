@@ -107,9 +107,9 @@ $("#signin-btn").on("click", async function () {
     $("#login-credential").val("");
     $("#login-password").val("");
     renderResponseSuccessMsg("Success", loginResponse.data.message);
-    // setTimeout(() => {
-    location.pathname = `dashboard?userId=${loginResponse.data.data._id}`;
-    // }, 1000);
+    setTimeout(() => {
+      location.href = `/dashboard?userId=${loginResponse.data.data._id}`;
+    }, 1000);
     console.log(loginResponse);
   } catch (error) {
     renderResponseError(

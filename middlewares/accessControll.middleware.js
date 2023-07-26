@@ -14,8 +14,10 @@ const hasPermission = (...roles) => {
 const hasAccess = (...roles) => {
   return async (req, res, next) => {
     const { id } = req.params;
+    console.log(id, req.session.user.userId);
+    console.log(id === req.session.user.userId);
     if (
-      !req.session.user.userId === id ||
+      !(req.session.user.userId === id) &&
       !roles.includes(req.session.user.role)
     ) {
       return next(
