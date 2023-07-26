@@ -9,6 +9,7 @@ const session = require("express-session");
 const dataBaseConnection = require("./dataBase/dataBase.connection");
 const apiRouter = require("./routes/api.route");
 const viewRouter = require("./routes/view.route");
+const { ResponseDto } = require("./utils/dtos/response.dto");
 
 const app = express();
 dataBaseConnection();
@@ -50,7 +51,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.json(new ResponseDto(err.status === 500 ? "Error" : "Fail", err.message));
 });
 
 module.exports = app;

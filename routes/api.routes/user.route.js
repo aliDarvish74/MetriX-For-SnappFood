@@ -8,6 +8,7 @@ const {
 const { isLoggedIn } = require("../../middlewares/auth/authCheck.middleware");
 const {
   hasPermission,
+  hasAccess,
 } = require("../../middlewares/accessControll.middleware");
 const {
   createUserValidator,
@@ -15,6 +16,7 @@ const {
 const {
   checkDuplicateCreateUser,
 } = require("../../middlewares/user/duplicateCheck.middleware");
+const { existUser } = require("../../middlewares/user/userExist.middleware");
 
 router.post(
   "/",
@@ -24,6 +26,13 @@ router.post(
   checkDuplicateCreateUser,
   createUser
 );
-router.get("/:id", getUserById);
+
+router.get(
+  "/:id",
+  isLoggedIn,
+  hasAccess("Coordinator", "Team Lead", "Supervisor", "Manager"),
+  existUser,
+  getUserById
+);
 
 module.exports = router;

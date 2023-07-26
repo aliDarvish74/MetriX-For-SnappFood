@@ -11,4 +11,18 @@ const hasPermission = (...roles) => {
   };
 };
 
-module.exports = { hasPermission };
+const hasAccess = (...roles) => {
+  return async (req, res, next) => {
+    const { id } = req.params;
+    if (
+      !req.session.user.userId === id ||
+      !roles.includes(req.session.user.role)
+    ) {
+      return next(
+        createError(403, "Access Denied! You have not access to this route.")
+      );
+    }
+    next();
+  };
+};
+module.exports = { hasPermission, hasAccess };

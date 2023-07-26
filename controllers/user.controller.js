@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 
-const { createNewUser, findUserById } = require("../services/user.service");
+const { createNewUser } = require("../services/user.service");
 const { ReadUserInfoDto, CreateUserDto } = require("../utils/dtos/user.dto");
 const { ResponseDto } = require("../utils/dtos/response.dto");
 
@@ -27,14 +27,15 @@ const createUser = async (req, res, next) => {
 
 const getUserById = async (req, res, next) => {
   try {
-    const { id } = req.params;
-    const targetUser = await findUserById(id).populate("directManager", {
-      fullname: 1,
-    });
-    res.status(200).json({
-      status: "success",
-      data: targetUser,
-    });
+    res
+      .status(200)
+      .json(
+        new ResponseDto(
+          "Success",
+          "User found successfully",
+          new ReadUserInfoDto(res.locals.user)
+        )
+      );
   } catch (error) {
     next(createError(500, "get user by id > " + error));
   }

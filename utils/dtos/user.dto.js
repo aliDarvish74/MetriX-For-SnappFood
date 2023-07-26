@@ -21,6 +21,7 @@ class ReadUserInfoDto {
     offGroup = "not-set",
     nationalCode,
     phoneNumber,
+    directManager = null,
     restTime = "not-set",
     role = "Agent",
   }) {
@@ -38,6 +39,7 @@ class ReadUserInfoDto {
     this.phoneNumber = phoneNumber;
     this.restTime = restTime;
     this.role = role;
+    if (!!directManager) this.directManager = directManager;
   }
 }
 
